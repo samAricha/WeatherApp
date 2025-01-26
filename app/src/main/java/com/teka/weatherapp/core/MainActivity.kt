@@ -1,4 +1,4 @@
-package com.teka.weatherapp
+package com.teka.weatherapp.core
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
