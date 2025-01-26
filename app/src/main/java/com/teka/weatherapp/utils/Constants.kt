@@ -9,7 +9,7 @@ object NetworkService {
 
 object Database {
     const val forecast_table = "forecast_data"
-    const val database_name = "weather_data.db"
+    const val database_name = "weather_app.db"
     const val city_table = "city_data"
     const val my_city_table = "my_city"
 }
