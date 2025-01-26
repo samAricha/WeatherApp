@@ -19,5 +19,8 @@ val ErrorRed = Color(0xFFEE5253)
 val Black = Color(0xFF000000)
 
 val DarkBlue = Color(0xFF252B35)
-val Blue = Color(0xFF2D5F7A)
 val LightBlue = Color(0xFF5D89A6)
+
+val NavyBlue = Color(0xFF0a154b)
+val Blue = Color(0xFF3092e8)
+val LightNavyBlue = Color(0xFF23224a)
