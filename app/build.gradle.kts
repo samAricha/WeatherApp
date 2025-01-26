@@ -98,4 +98,7 @@ dependencies {
 
     // system UI Controller
     implementation(libs.accompanist.systemuicontroller)
+
+    // Location
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 }
