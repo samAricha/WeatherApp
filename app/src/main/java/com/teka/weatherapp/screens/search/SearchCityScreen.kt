@@ -19,9 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.teka.weatherapp.R
 import com.composeweatherapp.core.helpers.HourConverter
 import com.teka.weatherapp.domain.model.Forecast
@@ -40,7 +42,11 @@ import com.teka.weatherapp.utils.component.ErrorCard
 
 
 @Composable
-fun SearchCityScreen(viewModel: SearchCityViewModel, onNavigateToHomeScreen: () -> Unit) {
+fun SearchCityScreen(
+    viewModel: SearchCityViewModel,
+    onNavigateToHomeScreen: () -> Unit,
+    navController: NavController
+) {
     val searchCityState by viewModel.searchCityState.collectAsState()
     val myCitiesState by viewModel.myCitiesState.collectAsState()
 
@@ -59,7 +65,8 @@ fun SearchCityScreen(viewModel: SearchCityViewModel, onNavigateToHomeScreen: () 
             SearchCityScreenContent(
                 viewModel = viewModel,
                 searchCityState = searchCityState,
-                myCitiesState = myCitiesState
+                myCitiesState = myCitiesState,
+                navController = navController
             )
         }
     }
@@ -69,7 +76,8 @@ fun SearchCityScreen(viewModel: SearchCityViewModel, onNavigateToHomeScreen: () 
 private fun SearchCityScreenContent(
     viewModel: SearchCityViewModel,
     searchCityState: SearchCityState,
-    myCitiesState: MyCitiesState
+    myCitiesState: MyCitiesState,
+    navController: NavController
 ) {
     SearchField(viewModel)
     if (viewModel.isCitySearched) {
@@ -85,7 +93,11 @@ private fun SearchCityScreenContent(
             }
             is SearchCityState.Success -> {
                 if (searchCityState.forecast != null) {
-                    WantedCityWeatherSection(searchCityState.forecast, viewModel)
+                    WantedCityWeatherSection(
+                        searchCityState.forecast,
+                        viewModel,
+                        navController
+                    )
                 }
             }
             is SearchCityState.Error -> {
@@ -147,14 +159,18 @@ private fun SearchField(viewModel: SearchCityViewModel) {
 }
 
 @Composable
-private fun WantedCityWeatherSection(forecast: Forecast, viewModel: SearchCityViewModel) {
+private fun WantedCityWeatherSection(
+    forecast: Forecast,
+    viewModel: SearchCityViewModel,
+    navController: NavController
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp)
     ) {
         Text(text = AppStrings.subtitle2, style = MaterialTheme.typography.headlineMedium)
-        CityWeatherCard(
+/*        CityWeatherCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(LocalConfiguration.current.screenHeightDp.dp / 4)
@@ -188,6 +204,36 @@ private fun WantedCityWeatherSection(forecast: Forecast, viewModel: SearchCityVi
                     )
                 )
             }
+        )*/
+
+        FavCard(
+            degree = "${forecast.weatherList[0].weatherData.temp.toInt()}${AppStrings.degree}",
+            latitude = forecast.cityDtoData.coordinate.latitude,
+            longitude = forecast.cityDtoData.coordinate.longitude,
+            city = forecast.cityDtoData.cityName,
+            country = forecast.cityDtoData.country,
+            description = forecast.weatherList[0].weatherStatus[0].description,
+            isItDb = false,
+            onClick = {
+                viewModel.addMyCity(
+                    MyCity(
+                        temp = forecast.weatherList[0].weatherData.temp,
+                        latitude = forecast.cityDtoData.coordinate.latitude,
+                        longitude = forecast.cityDtoData.coordinate.longitude,
+                        cityName = forecast.cityDtoData.cityName,
+                        country = forecast.cityDtoData.country,
+                        description = forecast.weatherList[0].weatherStatus[0].description,
+                        weatherImage = WeatherType.setWeatherType(
+                            forecast.weatherList[0].weatherStatus[0].mainDescription,
+                            forecast.weatherList[0].weatherStatus[0].description,
+                            HourConverter.convertHour(forecast.weatherList[0].date.substring(11, 13)),
+                        ),
+                    )
+                )
+            },
+            context = LocalContext.current,
+            icon = forecast.weatherList[0].weatherStatus[0].icon,
+            navController = navController
         )
     }
 }

@@ -38,7 +38,7 @@ fun CityWeatherCard(
         colors = CardDefaults.cardColors(DarkBlue),
         shape = MaterialTheme.shapes.medium
     ) {
-        WeatherImage(weatherImage = weatherImage)
+//        WeatherImage(weatherImage = weatherImage)
         WeatherInfo(degree, latitude, longitude, city, country, description, onClick, isItDb)
     }
 }
@@ -74,7 +74,12 @@ private fun WeatherInfo(
 @Composable
 private fun DegreeAndButtonSection(degree: String, isItDb: Boolean, onClick: () -> Unit) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(modifier = Modifier.padding(start = 16.dp) ,text = degree, fontSize = 76.sp)
+        Text(
+            modifier = Modifier.padding(start = 16.dp),
+            text = degree,
+            fontSize = 76.sp,
+            color = White
+        )
         IconButtonSection(isItDb, onClick)
     }
 }
@@ -93,10 +98,10 @@ private fun LocationAndDescription(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(modifier = Modifier.padding(start = 16.dp), horizontalAlignment = Alignment.Start) {
-            Text(text = "H:${latitude}  L:${longitude}")
+            Text(text = "H:${latitude}  L:${longitude}", color = White)
             Text(text = "${city}, $country")
         }
-        Text(modifier = Modifier.padding(end = 16.dp), text = description)
+        Text(modifier = Modifier.padding(end = 16.dp), text = description, color = White)
     }
 }
 

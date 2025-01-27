@@ -55,12 +55,17 @@ fun NavGraph(
                 )
             }
             composable(NavScreen.SearchCityScreen.route) {
-                SearchCityScreen(searchCityViewModel) {
-                    navController.navigate(NavScreen.HomeScreen.route) {
-                        launchSingleTop = true
-                        popUpTo(NavScreen.HomeScreen.route)
-                    }
-                }
+                SearchCityScreen(
+                    viewModel = searchCityViewModel,
+                    onNavigateToHomeScreen = {
+                        navController.navigate(NavScreen.HomeScreen.route) {
+                            launchSingleTop = true
+                            popUpTo(NavScreen.HomeScreen.route)
+                        }
+                                             },
+                        navController = navController
+                )
+
             }
         }
     }
