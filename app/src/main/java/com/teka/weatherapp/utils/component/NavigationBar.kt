@@ -41,25 +41,30 @@ import kotlin.let
 
 sealed class BottomNavItem(
     val route: String,
-    val icon: ImageVector
+    val name: String,
+    val icon: ImageVector,
 ) {
     object Home : BottomNavItem(
         route = NavScreen.HomeScreen.route,
-        icon = Icons.Outlined.Home
+        name = "Home",
+        icon = Icons.Outlined.Home,
     )
 
     object Search : BottomNavItem(
         route = NavScreen.SearchCityScreen.route,
+        name = "search",
         icon = Icons.Outlined.Search
     )
 
     object Forecast : BottomNavItem(
         route = Screen.Forecast.route,
+        name = "ForeCast",
         icon = Icons.Outlined.Analytics
     )
 
     object Settings : BottomNavItem(
         route = Screen.Settings.route,
+        name = "Settings",
         icon = Icons.Outlined.Settings
     )
 }
@@ -69,8 +74,8 @@ fun NavBar(navController: NavController) {
     val items = listOf(
         BottomNavItem.Home,
         BottomNavItem.Search,
-        BottomNavItem.Forecast,
-        BottomNavItem.Settings
+//        BottomNavItem.Forecast,
+//        BottomNavItem.Settings
     )
     val defaultCity = "default"
     NavigationBar(
@@ -91,59 +96,28 @@ fun NavBar(navController: NavController) {
 
         items.forEach { item ->
             var color = Color.White.copy(alpha = 0.4f)
+            if (currentRoute == item.route) {
+                color = Color(0xFFd68118)
+            } else if (item == BottomNavItem.Home) {
+                if (currentRoute !=BottomNavItem.Search.route &&
+                    currentRoute != BottomNavItem.Forecast.route &&
+                    currentRoute != BottomNavItem.Settings.route
+                ) {
+                    color = Color(0xFFd68118)
+                }
+            }
 
             NavigationBarItem(
                 icon = {
-                    if (currentRoute == item.route) {
-                        color = Color(0xFFd68118)
-                    } else if (item == BottomNavItem.Home) {
-                        if (currentRoute !=BottomNavItem.Search.route &&
-                            currentRoute != BottomNavItem.Forecast.route &&
-                            currentRoute != BottomNavItem.Settings.route
-                        ) {
-                            color = Color(0xFFd68118)
-                        }
-                    }
                     Icon(item.icon, contentDescription = null, tint = color)
                 },
                 selected = currentRoute == item.route,
-                colors = NavigationBarItemDefaults.colors(indicatorColor =  Color.Transparent),
+                colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent),
                 onClick = {
-                    if (item != BottomNavItem.Home) {
-                        if (item == BottomNavItem.Settings) {
-                            /*TODO(/*Not yet Implemented*/)*/
-                        } else {
-                            navController.navigate(item.route) {
-                                // Pop up to the start destination of the graph to
-                                // avoid building up a large stack of destinations
-                                // on the back stack as users select items
-                                navController.graph.startDestinationRoute?.let { route ->
-                                    popUpTo(route) {
-                                        saveState = true
-                                    }
-                                }
-                                // Avoid multiple copies of the same destination when re-selecting the same item
-                                launchSingleTop = true
-                                // Restore state when re-selecting a previously selected item
-                                restoreState = true
-                            }
-                        }
-                    } else {
-                        navController.navigate(item.route + "/$defaultCity") {
-                            // Pop up to the start destination of the graph to
-                            // avoid building up a large stack of destinations
-                            // on the back stack as users select items
-                            navController.graph.startDestinationRoute?.let { route ->
-                                popUpTo(route) {
-                                    saveState = true
-                                }
-                            }
-                            // Avoid multiple copies of the same destination when re-selecting the same item
-                            launchSingleTop = true
-                            // Restore state when re-selecting a previously selected item
-                            restoreState = true
-                        }
-                    }
+                    navController.navigate(item.route)
+                },
+                label = {
+                    Text(text = item.name, color = color)
                 }
             )
         }
