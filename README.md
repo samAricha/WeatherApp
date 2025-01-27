@@ -1,14 +1,14 @@
-<p align="center"><img src="art/chamaa_logo.png" alt="MealTime" height="150px"></p>
+<p align="center"><img src="art/sky_cast.png" alt="MealTime" height="150px"></p>
 
-🌦️ Whispers of the Weather 🌤️
+🌥️ SkyCast: Where Skies Speak 🌦️
 
-Step into a world where the skies tell their secrets. This weather forecast app brings you the dance of the clouds, the warmth of the sun, and the rhythm of the rain—all in real time. Powered by OpenWeatherMap's One Call API, it empowers you to:
+Embark on a journey where the heavens reveal their tales. SkyCast lets you uncover the whispers of the clouds, the glow of the sun, and the melody of the rain—all delivered to you in real-time. With the power of OpenWeatherMap's One Call API, SkyCast enables you to:
 
-✨ Search for the weather of distant horizons.
-🌍 Unlock the forecast for your current location with a single tap.
-📖 Save your favorite places in local storage, keeping their stories close for another day.
+✨ Explore the weather of faraway places and dream of horizons unknown.
+📍 Unlock forecasts for your current location effortlessly.
+📌 Save your cherished locations, keeping their weather stories close at hand.
 
-Whether you’re chasing sunshine or braving the storm, let this app be your guide to the ever-changing moods of the skies. ☁️🌈
+Whether you're planning adventures under sunny skies or navigating through stormy weather, let SkyCast be your trusted companion for the ever-shifting moods of the atmosphere. ☀️🌈
 
 
 ## Key Features
@@ -48,7 +48,7 @@ To run the application on android device/emulator:
 
 ## Screenshots
 ### Android
-<img src="art/android_screen1.jpeg"  width="250"/>  <img src="art/android_screen2.jpeg"  width="250"/>  <img src="art/android_screen3.jpeg" width="250"/>  <img src="art/android_screen4.jpeg" width="250"/> <img src="art/android_screen5.jpeg" width="250"/> <img src="art/android_screen6.jpeg" width="250"/>
+<img src="art/splash_screen.jpeg"  width="250"/>  <img src="art/home1.jpeg.jpeg"  width="250"/>  <img src="art/home2.jpeg" width="250"/>  <img src="art/loading.jpeg" width="250"/> <img src="art/error.jpeg" width="250"/>
 
 
 ## Architecture
