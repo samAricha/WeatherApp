@@ -111,7 +111,8 @@ private fun WeatherSection(currentWeatherState: HomeForecastState, errorCardOnCl
         is HomeForecastState.Success -> {
             if (currentWeatherState.forecast != null) {
                 CurrentWeatherSection(currentWeatherState.forecast)
-                DetailsSection(currentWeatherState.forecast)
+                Spacer(modifier = Modifier.height(100.dp))
+//                DetailsSection(currentWeatherState.forecast)
             }
         }
         is HomeForecastState.Error -> {
@@ -190,16 +191,16 @@ private fun CurrentWeatherSection(todayWeather: Forecast) {
                         MaterialTheme.colorScheme.primary,
                         Color.Transparent,
                     ), tileMode = TileMode.Clamp
-                ), alpha = 0.7F
+                ),
+                alpha = 0.7F
             )
         ) {
             Image(
                 painter = painterResource(id = image),
                 contentDescription = "WeatherIcon",
                 modifier = Modifier
-                    .scale(
-                        1F
-                    )
+                    .size(150.dp)
+                    .scale(0.8F)
             )
 
         }
@@ -213,7 +214,7 @@ private fun CurrentWeatherSection(todayWeather: Forecast) {
                     withStyle(
                         style = SpanStyle(
                             color = MaterialTheme.colorScheme.onPrimary,
-                            fontSize = 50.sp,
+                            fontSize = 40.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = poppinsFamily
                         )
@@ -251,9 +252,93 @@ private fun CurrentWeatherSection(todayWeather: Forecast) {
 
         Text(
             text = "H:${todayWeather.cityDtoData.coordinate.longitude}°  L:${todayWeather.cityDtoData.coordinate.latitude}°",
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.bodySmall,
             color = Color.Gray
         )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 15.dp, end = 15.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.pressure),
+                    contentDescription = "PressureIcon",
+                    modifier = Modifier
+                        .scale(
+                            1F
+                        )
+                        .size(80.dp)
+                )
+                Text(
+                    todayWeather.weatherList[0].weatherData.pressure.toString() + "hPa",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    fontFamily = poppinsFamily,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    "Pressure",
+                    fontSize = 12.sp,
+                    fontFamily = poppinsFamily,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                Image(
+                    painter = painterResource(id = R.drawable.wind),
+                    contentDescription = "WindIcon",
+                    modifier = Modifier
+                        .scale(
+                            1F
+                        )
+                        .size(80.dp)
+
+                )
+                Text(
+                    todayWeather.weatherList[0].wind.speed.toString() + "m/s",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    fontFamily = poppinsFamily,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Text("Wind", fontSize = 12.sp, fontFamily = poppinsFamily, color = MaterialTheme.colorScheme.onPrimary)
+            }
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.humidity),
+                    contentDescription = "HumidityIcon",
+                    modifier = Modifier
+                        .scale(
+                            1F
+                        )
+                        .size(80.dp)
+                )
+                Text(
+                    todayWeather.weatherList[0].weatherData.humidity.toString() + "%",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    fontFamily = poppinsFamily,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Text("Humidity", fontSize = 12.sp, fontFamily = poppinsFamily, color = MaterialTheme.colorScheme.onPrimary)
+            }
+        }
     }
 }
 
