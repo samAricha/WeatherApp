@@ -65,7 +65,7 @@ class ForecastRepositoryImpl @Inject constructor(
     }
 
     override fun getForecastWeather(): Forecast? {
-        return if (forecastLocalDataSource.getForecastWeather().isNullOrEmpty()) {
+        return if (forecastLocalDataSource.getForecastWeather().isEmpty()) {
             null
         } else {
             entityMapper.mapFromEntity(

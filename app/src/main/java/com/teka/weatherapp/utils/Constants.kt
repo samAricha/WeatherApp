@@ -2,7 +2,7 @@ package com.teka.weatherapp.utils
 
 object NetworkService {
     const val BASE_URL: String = "https://api.openweathermap.org"
-    const val API_KEY: String = ""
+    const val API_KEY: String = "cfe577b09f43deea2722462eea76e473"
     const val UNITS: String = "metric"
     const val FORECAST_END_POINT = "/data/2.5/forecast"
 }
