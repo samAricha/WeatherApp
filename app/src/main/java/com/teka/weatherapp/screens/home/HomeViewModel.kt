@@ -1,5 +1,6 @@
 package com.teka.weatherapp.screens.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teka.weatherapp.domain.model.City
@@ -18,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -31,11 +33,14 @@ class HomeViewModel @Inject constructor(
     private val getForecast: GetForecastUseCase,
     private val getCurrentLocation: GetLocationUseCase
 ) : ViewModel() {
+    val timber = Timber.tag("HomeViewModel")
 
     private val _homeForecastState = MutableStateFlow<HomeForecastState>(HomeForecastState.Loading)
     val homeForecastState = _homeForecastState.asStateFlow()
 
     fun loadLocation() {
+        timber.i("Loading Location info")
+
         _homeForecastState.value = HomeForecastState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -58,6 +63,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun fetchForecast(latitude: Double, longitude: Double) {
+        timber.i("Fetching ForeCast info")
+
         when (val result: Resource<Forecast> = getForecast.getForecast(latitude, longitude)) {
             is Resource.Success -> {
                 _homeForecastState.value = HomeForecastState.Success(result.data)
@@ -70,7 +77,11 @@ class HomeViewModel @Inject constructor(
                 }
             }
             is Resource.Error -> {
-                _homeForecastState.value = HomeForecastState.Error(result.message)
+                if (isForecastCached()) {
+                    getCachedForecast()
+                } else {
+                    _homeForecastState.value = HomeForecastState.Error(result.message)
+                }
             }
         }
     }
@@ -94,11 +105,18 @@ class HomeViewModel @Inject constructor(
     // Data cannot be null.
     // Because before this function is called, it is checked for null with the isForecastCached() function.
     private fun getCachedForecast() {
+        val data = getForecastDb.getForecastFromDbUseCase()
         _homeForecastState.value =
-            HomeForecastState.Success(getForecastDb.getForecastFromDbUseCase())
+            HomeForecastState.Success(
+                data,
+                isReadingCachedData = true,
+                data?.lastUpdated ?: System.currentTimeMillis()
+            )
     }
 
     private fun isForecastCached(): Boolean {
-        return getForecastDb.getForecastFromDbUseCase() != null
+        val isForecastCached = getForecastDb.getForecastFromDbUseCase() != null
+        timber.i("isForecastDataCached $isForecastCached")
+        return isForecastCached
     }
 }

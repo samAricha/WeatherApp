@@ -51,7 +51,7 @@ To run the application on an Android device or emulator:
 
 ## Screenshots
 ### Android
-<img src="art/splash_screen.jpeg"  width="250"/>  <img src="art/home1.jpeg.jpeg"  width="250"/>  <img src="art/home2.jpeg" width="250"/>  <img src="art/loading.jpeg" width="250"/> <img src="art/error.jpeg" width="250"/>
+<img src="art/splash_screen.jpeg"  width="250"/> <img src="art/permissions.jpeg"  width="250"/>  <img src="art/home1.jpeg.jpeg"  width="250"/>  <img src="art/home_offline.jpeg" width="250"/> <img src="art/search_screen.jpeg" width="250"/>  <img src="art/loading.jpeg" width="250"/> <img src="art/error.jpeg" width="250"/>
 
 
 ## Architecture

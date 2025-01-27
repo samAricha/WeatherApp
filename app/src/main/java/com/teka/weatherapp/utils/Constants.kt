@@ -57,7 +57,7 @@ object AppStrings {
     const val degree = "°"
 
     // SearchCityScreen
-    const val topbar_title = "Weather"
+    const val topbar_title = "Search"
 
     // SearchCityScreen -> SearchField
     const val placeholder = "Search for a city"

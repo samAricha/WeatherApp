@@ -52,7 +52,8 @@ class ForecastDtoMapper @Inject constructor() : IEntityMapper<ForecastDto, Forec
                     entity.cityDtoData.coordinate.latitude,
                     entity.cityDtoData.coordinate.longitude
                 )
-            )
+            ),
+            lastUpdated = System.currentTimeMillis()
         )
     }
 

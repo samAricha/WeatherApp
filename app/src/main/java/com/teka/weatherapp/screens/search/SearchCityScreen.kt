@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,8 +22,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.teka.weatherapp.R
 import com.composeweatherapp.core.helpers.HourConverter
@@ -31,6 +35,8 @@ import com.teka.weatherapp.domain.model.MyCity
 import com.teka.weatherapp.ui.theme.Blue
 import com.teka.weatherapp.ui.theme.DarkBlue
 import com.teka.weatherapp.ui.theme.LightBlue
+import com.teka.weatherapp.ui.theme.White
+import com.teka.weatherapp.ui.theme.poppinsFamily
 import com.teka.weatherapp.utils.AppStrings
 import com.teka.weatherapp.utils.Constants
 import com.teka.weatherapp.utils.ErrorCardConsts
@@ -118,8 +124,11 @@ private fun TopBarSection(onBackClick: () -> Unit) {
             .statusBarsPadding(),
         title = {
             Text(
-                text = AppStrings.topbar_title,
-                style = MaterialTheme.typography.headlineMedium
+                AppStrings.topbar_title,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = poppinsFamily,
+                color = White
             )
                 },
         navigationIcon = {
@@ -151,10 +160,11 @@ private fun SearchField(viewModel: SearchCityViewModel) {
             IconButton(onClick = { viewModel.searchCityClick() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_search_24),
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = White
                 )
             }
-        }
+        },
     )
 }
 
@@ -170,41 +180,6 @@ private fun WantedCityWeatherSection(
             .padding(top = 16.dp)
     ) {
         Text(text = AppStrings.subtitle2, style = MaterialTheme.typography.headlineMedium)
-/*        CityWeatherCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(LocalConfiguration.current.screenHeightDp.dp / 4)
-                .padding(top = 16.dp),
-            degree = "${forecast.weatherList[0].weatherData.temp.toInt()}${AppStrings.degree}",
-            latitude = forecast.cityDtoData.coordinate.latitude,
-            longitude = forecast.cityDtoData.coordinate.longitude,
-            city = forecast.cityDtoData.cityName,
-            country = forecast.cityDtoData.country,
-            description = forecast.weatherList[0].weatherStatus[0].description,
-            weatherImage = WeatherType.setWeatherType(
-                forecast.weatherList[0].weatherStatus[0].mainDescription,
-                forecast.weatherList[0].weatherStatus[0].description,
-                HourConverter.convertHour(forecast.weatherList[0].date.substring(11, 13)),
-            ),
-            isItDb = false,
-            onClick = {
-                viewModel.addMyCity(
-                    MyCity(
-                        temp = forecast.weatherList[0].weatherData.temp,
-                        latitude = forecast.cityDtoData.coordinate.latitude,
-                        longitude = forecast.cityDtoData.coordinate.longitude,
-                        cityName = forecast.cityDtoData.cityName,
-                        country = forecast.cityDtoData.country,
-                        description = forecast.weatherList[0].weatherStatus[0].description,
-                        weatherImage = WeatherType.setWeatherType(
-                            forecast.weatherList[0].weatherStatus[0].mainDescription,
-                            forecast.weatherList[0].weatherStatus[0].description,
-                            HourConverter.convertHour(forecast.weatherList[0].date.substring(11, 13)),
-                        ),
-                    )
-                )
-            }
-        )*/
 
         FavCard(
             degree = "${forecast.weatherList[0].weatherData.temp.toInt()}${AppStrings.degree}",

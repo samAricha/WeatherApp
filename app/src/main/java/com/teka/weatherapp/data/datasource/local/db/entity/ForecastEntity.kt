@@ -40,4 +40,6 @@ data class ForecastEntity(
 
     @ColumnInfo(name = "cloudinessDto")
     val cloudiness: Int,
+
+    val lastUpdated: Long
 )
