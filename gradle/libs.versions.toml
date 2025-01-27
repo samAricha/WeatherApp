@@ -17,6 +17,7 @@ kotlinSerialization = "2.0.21"
 kotlinxDatetime = "0.5.0"
 kotlinxSerializationJson = "1.7.3"
 loggingInterceptor = "5.0.0-alpha.2"
+material = "1.7.6"
 navigationCompose = "2.8.3"
 okhttp = "5.0.0-alpha.2"
 retrofit = "2.9.0"
@@ -30,6 +31,7 @@ accompanistSystemuicontroller = "0.34.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
