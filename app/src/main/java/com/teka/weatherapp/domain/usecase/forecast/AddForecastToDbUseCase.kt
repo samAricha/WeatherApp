@@ -21,7 +21,8 @@ class AddForecastToDbUseCase @Inject constructor(private val forecastRepositoryI
                             forecast.weatherList[i - 1].cloudiness
                         )
                     ),
-                    forecast.cityDtoData
+                    forecast.cityDtoData,
+                    lastUpdated = forecast.lastUpdated
                 )
             )
         }

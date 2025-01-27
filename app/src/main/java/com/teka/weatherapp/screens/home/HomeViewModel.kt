@@ -105,8 +105,13 @@ class HomeViewModel @Inject constructor(
     // Data cannot be null.
     // Because before this function is called, it is checked for null with the isForecastCached() function.
     private fun getCachedForecast() {
+        val data = getForecastDb.getForecastFromDbUseCase()
         _homeForecastState.value =
-            HomeForecastState.Success(getForecastDb.getForecastFromDbUseCase())
+            HomeForecastState.Success(
+                data,
+                isReadingCachedData = true,
+                data?.lastUpdated ?: System.currentTimeMillis()
+            )
     }
 
     private fun isForecastCached(): Boolean {

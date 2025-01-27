@@ -52,6 +52,7 @@ import com.teka.weatherapp.ui.theme.poppinsFamily
 import com.teka.weatherapp.utils.AppStrings
 import com.teka.weatherapp.utils.ErrorCardConsts
 import com.teka.weatherapp.utils.ExceptionTitles
+import com.teka.weatherapp.utils.component.CachedDataIndicator
 import com.teka.weatherapp.utils.component.CircularProgressBar
 import com.teka.weatherapp.utils.component.CurrentWeatherDetailRow
 import com.teka.weatherapp.utils.component.ErrorCard
@@ -111,28 +112,34 @@ private fun WeatherSection(currentWeatherState: HomeForecastState, errorCardOnCl
         }
         is HomeForecastState.Success -> {
             if (currentWeatherState.forecast != null) {
-                LazyColumn {
-                    item {
-                        CurrentWeatherSection(currentWeatherState.forecast)
-                    }
-                    item {
-                        Spacer(modifier = Modifier.height(30.dp))
-                    }
-                    item {
+                Column {
+                    CachedDataIndicator(
+                        isReadingCachedData = currentWeatherState.isReadingCachedData,
+                        lastUpdated = currentWeatherState.lastUpdated
+                    )
+                    LazyColumn {
+                        item {
+                            CurrentWeatherSection(currentWeatherState.forecast)
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(30.dp))
+                        }
+                        item {
 //                DetailsSection(currentWeatherState.forecast)
-                    }
-                    item {
-                        ForecastTitle(text = AppStrings.daily_forecast)
-                    }
-                    item {
-                        ForecastLazyRow(
-                            forecasts = currentWeatherState.forecast.weatherList.takeLast(
-                                32
+                        }
+                        item {
+                            ForecastTitle(text = AppStrings.daily_forecast)
+                        }
+                        item {
+                            ForecastLazyRow(
+                                forecasts = currentWeatherState.forecast.weatherList.takeLast(
+                                    32
+                                )
                             )
-                        )
-                    }
-                    item {
-                        Spacer(modifier = Modifier.height(150.dp))
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(150.dp))
+                        }
                     }
                 }
             }

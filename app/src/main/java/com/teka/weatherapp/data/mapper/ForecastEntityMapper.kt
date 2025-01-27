@@ -17,7 +17,7 @@ import kotlin.collections.get
 class ForecastEntityMapper @Inject constructor() {
     fun mapFromEntity(entityForecast: List<ForecastEntity>, entityCity: CityEntity): Forecast {
         return Forecast(
-            entityForecast.map {
+            entityForecast.map { it ->
                 ForecastWeather(
                     it.id,
                     Main(
@@ -44,7 +44,8 @@ class ForecastEntityMapper @Inject constructor() {
                     entityCity.longitude,
                     entityCity.latitude
                 )
-            )
+            ),
+            lastUpdated = entityForecast[0].lastUpdated
         )
     }
 
@@ -61,6 +62,7 @@ class ForecastEntityMapper @Inject constructor() {
             date = model.weatherList[0].date,
             cloudiness = model.weatherList[0].cloudiness.cloudiness,
             icon = model.weatherList[0].weatherStatus[0].icon,
+            lastUpdated = model.lastUpdated,
         )
     }
 }
