@@ -24,24 +24,27 @@ Whether you're planning adventures under sunny skies or navigating through storm
 
 ## 🛠️ Prerequisites 🛠️
 #### IDE
-You can either use [IntelliJ IDEA](https://www.jetbrains.com/idea/) or [Android Studio](https://developer.android.com/studio/).
+[Android Studio](https://developer.android.com/studio/).
 
 
 
 # Setup Instructions
 
-1. **Install PostgreSQL**: To save data to the database from the **Ktor Server**, you'll need to have **PostgreSQL** installed on your machine. After installation, create a database and obtain your **username** and **password**.
-
-2. **Configure Database Connection**: Once you have your credentials, update the `Data.kt` file with your **username** and **password**. This file is located at:
-
-3. **Create the Database**: Ensure you have a database named `chamaa` created in your PostgreSQL setup.
+1. **API KEY**: Update the API-KEY variable in Constants.kt file under utils folder i.e utils -> Constants.kt by placing your OpenWeatherMap api key in the variable.
 
 
-## Run project
-To run the application on android device/emulator:
-- open project and access the Application.kt file under Server Folder
-- un imported android run configuration
-- N:B ==> In order to run Ktor Server you will require PostgreSQL installed on your machine and have a DB named "chamaa"
+
+## Run Project
+To run the application on an Android device or emulator:
+
+1. Clone the repository and open the project in Android Studio.
+2. Sync the project to download all dependencies.
+3. Replace the `apiKey` placeholder in the code with your OpenWeatherMap API key.
+    - You can obtain an API key from [OpenWeatherMap](https://openweathermap.org/api).
+4. Build and run the app on your preferred device or emulator.
+
+> **Note:** Ensure your device/emulator has an active internet connection for retrieving weather data.
+
 
 
 
