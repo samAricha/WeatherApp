@@ -23,7 +23,7 @@ import com.teka.weatherapp.utils.WeatherType
 fun ForecastLazyRow(forecasts: List<ForecastWeather>) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        contentPadding = PaddingValues(horizontal = 6.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(forecasts) {

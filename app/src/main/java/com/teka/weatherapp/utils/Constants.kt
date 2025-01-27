@@ -42,7 +42,7 @@ object AppStrings {
 
     // HomeScreen -> ForecastSection
     const val hourly_forecast = "Hourly Forecast"
-    const val daily_forecast = "Daily Forecast"
+    const val daily_forecast = "Forecast(5-day)"
 
     // HomeScreen -> WeatherDetailSection
     const val temp = "🌡 TEMP"

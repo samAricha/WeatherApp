@@ -5,6 +5,7 @@ import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -110,9 +111,30 @@ private fun WeatherSection(currentWeatherState: HomeForecastState, errorCardOnCl
         }
         is HomeForecastState.Success -> {
             if (currentWeatherState.forecast != null) {
-                CurrentWeatherSection(currentWeatherState.forecast)
-                Spacer(modifier = Modifier.height(100.dp))
+                LazyColumn {
+                    item {
+                        CurrentWeatherSection(currentWeatherState.forecast)
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(30.dp))
+                    }
+                    item {
 //                DetailsSection(currentWeatherState.forecast)
+                    }
+                    item {
+                        ForecastTitle(text = AppStrings.daily_forecast)
+                    }
+                    item {
+                        ForecastLazyRow(
+                            forecasts = currentWeatherState.forecast.weatherList.takeLast(
+                                32
+                            )
+                        )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(150.dp))
+                    }
+                }
             }
         }
         is HomeForecastState.Error -> {
@@ -277,7 +299,7 @@ private fun CurrentWeatherSection(todayWeather: Forecast) {
                 )
                 Text(
                     todayWeather.weatherList[0].weatherData.pressure.toString() + "hPa",
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Medium,
                     fontSize = 18.sp,
                     fontFamily = poppinsFamily,
                     color = MaterialTheme.colorScheme.onPrimary
@@ -285,6 +307,7 @@ private fun CurrentWeatherSection(todayWeather: Forecast) {
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     "Pressure",
+                    fontWeight = FontWeight.ExtraLight,
                     fontSize = 12.sp,
                     fontFamily = poppinsFamily,
                     color = MaterialTheme.colorScheme.onPrimary
@@ -307,13 +330,18 @@ private fun CurrentWeatherSection(todayWeather: Forecast) {
                 )
                 Text(
                     todayWeather.weatherList[0].wind.speed.toString() + "m/s",
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Medium,
                     fontSize = 18.sp,
                     fontFamily = poppinsFamily,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
                 Spacer(modifier = Modifier.height(5.dp))
-                Text("Wind", fontSize = 12.sp, fontFamily = poppinsFamily, color = MaterialTheme.colorScheme.onPrimary)
+                Text("Wind",
+                    fontSize = 12.sp,
+                    fontFamily = poppinsFamily,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    fontWeight = FontWeight.ExtraLight
+                )
             }
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,
@@ -330,13 +358,19 @@ private fun CurrentWeatherSection(todayWeather: Forecast) {
                 )
                 Text(
                     todayWeather.weatherList[0].weatherData.humidity.toString() + "%",
-                    fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                     fontFamily = poppinsFamily,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    fontWeight = FontWeight.Medium
                 )
                 Spacer(modifier = Modifier.height(5.dp))
-                Text("Humidity", fontSize = 12.sp, fontFamily = poppinsFamily, color = MaterialTheme.colorScheme.onPrimary)
+                Text(
+                    "Humidity",
+                    fontSize = 12.sp,
+                    fontFamily = poppinsFamily,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    fontWeight = FontWeight.ExtraLight
+                )
             }
         }
     }
@@ -361,7 +395,7 @@ private fun DetailsSection(forecast: Forecast) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 ForecastSection(forecast)
-                WeatherDetailSection(forecast)
+//                WeatherDetailSection(forecast)
             }
         }
     }
