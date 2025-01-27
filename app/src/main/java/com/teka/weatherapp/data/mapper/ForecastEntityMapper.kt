@@ -27,7 +27,7 @@ class ForecastEntityMapper @Inject constructor() {
                         it.humidity
                     ),
                     listOf(
-                        Weather(it.mainDescription, it.description)
+                        Weather(it.mainDescription, it.description, it.icon)
                     ),
                     Wind(it.wind_speed),
                     it.date,
@@ -59,7 +59,8 @@ class ForecastEntityMapper @Inject constructor() {
             description = model.weatherList[0].weatherStatus[0].description,
             mainDescription = model.weatherList[0].weatherStatus[0].mainDescription,
             date = model.weatherList[0].date,
-            cloudiness = model.weatherList[0].cloudiness.cloudiness
+            cloudiness = model.weatherList[0].cloudiness.cloudiness,
+            icon = model.weatherList[0].weatherStatus[0].icon,
         )
     }
 }

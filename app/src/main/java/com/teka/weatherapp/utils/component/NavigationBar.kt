@@ -73,7 +73,7 @@ fun NavBar(navController: NavController) {
         BottomNavItem.Settings
     )
     val defaultCity = "default"
-    NavigationBar (
+    NavigationBar(
         modifier = Modifier
 //            .fillMaxWidth()
             .padding(start = 15.dp, end = 15.dp)
@@ -107,7 +107,7 @@ fun NavBar(navController: NavController) {
                     Icon(item.icon, contentDescription = null, tint = color)
                 },
                 selected = currentRoute == item.route,
-                colors = NavigationBarItemDefaults.colors(selectedIconColor =  Color.Transparent),
+                colors = NavigationBarItemDefaults.colors(indicatorColor =  Color.Transparent),
                 onClick = {
                     if (item != BottomNavItem.Home) {
                         if (item == BottomNavItem.Settings) {

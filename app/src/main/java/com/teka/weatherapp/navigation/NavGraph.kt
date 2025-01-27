@@ -1,11 +1,21 @@
 package com.teka.weatherapp.navigation
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -24,12 +34,15 @@ fun NavGraph(
 ) {
     val navController = rememberNavController()
 
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             NavBar(navController)
         },
     ) {
+
+
         NavHost(
             navController = navController,
             startDestination = startDestination
@@ -37,7 +50,7 @@ fun NavGraph(
             composable(NavScreen.HomeScreen.route) {
                 HomeScreen(
                     viewModel = homeViewModel,
-                    navController  = navController,
+                    navController = navController,
                     onNavigateToSearchCityScreen = { navController.navigate(NavScreen.SearchCityScreen.route) }
                 )
             }
@@ -51,4 +64,5 @@ fun NavGraph(
             }
         }
     }
+
 }

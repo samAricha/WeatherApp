@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -24,11 +26,20 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -36,6 +47,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.composeweatherapp.core.helpers.EpochConverter
 import com.teka.weatherapp.R
 import com.teka.weatherapp.domain.model.Forecast
+import com.teka.weatherapp.ui.theme.poppinsFamily
 import com.teka.weatherapp.utils.AppStrings
 import com.teka.weatherapp.utils.ErrorCardConsts
 import com.teka.weatherapp.utils.ExceptionTitles
@@ -46,6 +58,7 @@ import com.teka.weatherapp.utils.component.ForecastLazyRow
 import com.teka.weatherapp.utils.component.ForecastTitle
 import com.teka.weatherapp.utils.component.NavBar
 import com.teka.weatherapp.utils.helpers.SetError
+import kotlin.text.clear
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter",
     "ContextCastToActivity"
@@ -59,25 +72,32 @@ fun HomeScreen(
     val homeCurrentWeatherState by viewModel.homeForecastState.collectAsState()
     val activity = (LocalContext.current as? Activity)
 
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
     ) {
         BackgroundImage()
-        MenuIcon { onNavigateToSearchCityScreen() }
+//            MenuIcon { onNavigateToSearchCityScreen() }
         WeatherSection(homeCurrentWeatherState) { activity?.finish() }
     }
+
 }
 
 @Composable
 private fun BackgroundImage() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painterResource(id = R.drawable.background),
-            contentDescription = null,
-            contentScale = ContentScale.Crop
-        )
-    }
+    val gradientColors = listOf(Color(0xFF060620), MaterialTheme.colorScheme.primary)
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.linearGradient(
+                    colors = gradientColors,
+                    start = Offset(0f, Float.POSITIVE_INFINITY),
+                    end = Offset(Float.POSITIVE_INFINITY, 0f)
+                )
+            )
+    )
 }
 
 @Composable
@@ -114,29 +134,125 @@ private fun WeatherSection(currentWeatherState: HomeForecastState, errorCardOnCl
 
 @Composable
 private fun CurrentWeatherSection(todayWeather: Forecast) {
+    val icon = todayWeather.weatherList[0].weatherStatus[0].icon
+    var image = R.drawable.sun_cloudy
+    if (icon == "01d") {
+        image = R.drawable.sunny
+    } else if (icon == "02d") {
+        image = R.drawable.sunny
+    } else if (icon == "03d" || icon == "04d" || icon == "04n" || icon == "03n" || icon == "02n") {
+        image = R.drawable.cloudy
+    } else if (icon == "09d" || icon == "10n" || icon == "09n") {
+        image = R.drawable.rainy
+    } else if (icon == "10d") {
+        image = R.drawable.rainy_sunny
+    } else if (icon == "11d" || icon == "11n") {
+        image = R.drawable.thunder_lightning
+    } else if (icon == "13d" || icon == "13n") {
+        image = R.drawable.snow
+    } else if (icon == "50d" || icon == "50n") {
+        image = R.drawable.fog
+    } else if (icon == "01n") {
+        image = R.drawable.clear
+    } else {
+        R.drawable.cloudy
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .statusBarsPadding()
-            .padding(top = 72.dp),
+            .statusBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = todayWeather.cityDtoData.cityName,
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Text(
-            text = "${todayWeather.weatherList[0].weatherData.temp.toInt()}${AppStrings.degree}",
-            style = MaterialTheme.typography.headlineSmall
-        )
-        Text(
-            text = todayWeather.weatherList[0].weatherStatus[0].description,
-            style = MaterialTheme.typography.headlineSmall,
-            color = Color.Gray
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 5.dp, bottom = 10.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                Icons.Outlined.LocationOn,
+                contentDescription = stringResource(R.string.location_icon),
+                tint = MaterialTheme.colorScheme.secondary
+            )
+            Text(
+                todayWeather.cityDtoData.cityName,
+                fontSize = 16.sp,
+                fontFamily = poppinsFamily,
+                color = Color.White
+            )
+        }
+
+        Box(
+            modifier = Modifier.background(
+                brush = Brush.radialGradient(
+                    colors = listOf(
+                        MaterialTheme.colorScheme.secondary,
+                        MaterialTheme.colorScheme.primary,
+                        Color.Transparent,
+                    ), tileMode = TileMode.Clamp
+                ), alpha = 0.7F
+            )
+        ) {
+            Image(
+                painter = painterResource(id = image),
+                contentDescription = "WeatherIcon",
+                modifier = Modifier
+                    .scale(
+                        1F
+                    )
+            )
+
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            fontSize = 50.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = poppinsFamily
+                        )
+                    ) {
+                        append("${todayWeather.weatherList[0].weatherData.temp.toInt()}")
+                    }
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color(0xFFd68118),
+                            fontSize = 45.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = poppinsFamily
+                        )
+                    ) {
+                        append("°")
+                    }
+                })
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 5.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                todayWeather.weatherList[0].weatherStatus[0].description.split(' ')
+                    .joinToString(separator = " ") { word -> word.replaceFirstChar { it.uppercase() } },
+                fontSize = 20.sp,
+                style = MaterialTheme.typography.headlineSmall,
+                fontFamily = poppinsFamily,
+                color = Color.Gray
+            )
+        }
+
+
         Text(
             text = "H:${todayWeather.cityDtoData.coordinate.longitude}°  L:${todayWeather.cityDtoData.coordinate.latitude}°",
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
+            color = Color.Gray
         )
     }
 }

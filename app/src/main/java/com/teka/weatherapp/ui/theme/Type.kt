@@ -15,6 +15,13 @@ val fonts = FontFamily(
     Font(R.font.sourcesanspro_regular, FontWeight.Normal)
 )
 
+val poppinsFamily = FontFamily(
+    Font(R.font.poppins_bold, FontWeight.Bold),
+    Font(R.font.poppins_regular, FontWeight.Normal),
+    Font(R.font.poppins_light, FontWeight.Light),
+    Font(R.font.poppins_medium, FontWeight.Medium)
+)
+
 
 private val defaultTypography = Typography()
 

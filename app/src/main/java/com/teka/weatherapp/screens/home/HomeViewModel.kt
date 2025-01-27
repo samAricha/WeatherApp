@@ -58,7 +58,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun fetchForecast(latitude: Double, longitude: Double) {
-        when (val result = getForecast.getForecast(latitude, longitude)) {
+        when (val result: Resource<Forecast> = getForecast.getForecast(latitude, longitude)) {
             is Resource.Success -> {
                 _homeForecastState.value = HomeForecastState.Success(result.data)
                 if (result.data != null) {
