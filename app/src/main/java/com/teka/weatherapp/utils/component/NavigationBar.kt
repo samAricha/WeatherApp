@@ -1,29 +1,41 @@
 package com.teka.weatherapp.utils.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.teka.weatherapp.navigation.Screen
 import kotlin.collections.forEach
+import com.teka.weatherapp.R
+import com.teka.weatherapp.navigation.NavScreen
 import kotlin.let
 
 
@@ -32,12 +44,12 @@ sealed class BottomNavItem(
     val icon: ImageVector
 ) {
     object Home : BottomNavItem(
-        route = Screen.Home.route,
+        route = NavScreen.HomeScreen.route,
         icon = Icons.Outlined.Home
     )
 
     object Search : BottomNavItem(
-        route = Screen.Search.route,
+        route = NavScreen.SearchCityScreen.route,
         icon = Icons.Outlined.Search
     )
 
@@ -61,20 +73,25 @@ fun NavBar(navController: NavController) {
         BottomNavItem.Settings
     )
     val defaultCity = "default"
-    BottomAppBar(
+    NavigationBar (
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 15.dp, bottom = 15.dp, start = 15.dp, end = 15.dp)
+//            .fillMaxWidth()
+            .padding(start = 15.dp, end = 15.dp)
             .clip(
                 RoundedCornerShape(15.dp, 15.dp, 15.dp, 15.dp)
             ),
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = Color.White
     ) {
+
+
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
+
+
         items.forEach { item ->
             var color = Color.White.copy(alpha = 0.4f)
+
             NavigationBarItem(
                 icon = {
                     if (currentRoute == item.route) {
